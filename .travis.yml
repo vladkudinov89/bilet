@@ -1,0 +1,28 @@
+sudo: required
+language: php
+dist: trusty
+
+php:
+  - 7.1
+
+install:
+  - echo $DB_DATABASE
+  - composer self-update
+  - travis_retry composer install --no-interaction
+  - mysql -e 'create database ${DB_DATABASE};'
+  - mysql -e "create user '${DB_USERNAME}'@'localhost' identified by '${DB_PASSWORD}';"
+  - mysql -e "grant all privileges on ${DB_DATABASE}.* to '${DB_USERNAME}'@'localhost' with grant option;"
+
+before_script:
+  - cp .env.travis .env
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - php artisan key:generate
+  - php artisan migrate
+
+script:
+  - ./vendor/bin/phpunit
+
+branches:
+  only:
+    - develop
