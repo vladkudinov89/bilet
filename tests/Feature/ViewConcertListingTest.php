@@ -18,7 +18,7 @@ class ViewConcertListingTest extends TestCase
         $concert = Concert::create([
             'title' => 'The Red Chord',
             'subtitle' => 'with Animosity and Lethargy',
-            'date' => Carbon::parse('December 13, 2016 8:00pm'),
+            'date' => Carbon::parse('December 13,2016 8:00pm'),
             'ticket_price' => 3250,
             'venue' => 'The Mosh Pit',
             'venue_address' => '123 Example Lane',
@@ -33,7 +33,7 @@ class ViewConcertListingTest extends TestCase
 
         $response->assertSee('The Red Chord');
         $response->assertSee('with Animosity and Lethargy');
-        $response->assertSee('December 13, 2016');
+        $response->assertSee('December 13,2016');
         $response->assertSee('8:00pm');
         $response->assertSee('32.50');
         $response->assertSee('The Mosh Pit');
