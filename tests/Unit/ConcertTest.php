@@ -4,10 +4,12 @@ namespace Tests\Unit;
 
 use App\Concert;
 use Carbon\Carbon;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
 class ConcertTest extends TestCase
 {
+    use DatabaseMigrations;
 
     public function test_can_get_formatted_date()
     {
