@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Concert extends Model
 {
+    protected $table = 'concerts';
+
     protected $guarded = [];
 
     protected $dates = ['date'];
