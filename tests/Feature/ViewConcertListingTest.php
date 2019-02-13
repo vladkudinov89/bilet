@@ -29,16 +29,17 @@ class ViewConcertListingTest extends TestCase
 
         ]);
 
+        $response = $this->get('/concert/' . $concert->id);
 
-        $this->visit('/concert/' . $concert->id)
-            ->assertSee('The Red Chord')
-            ->assertSee('with Animosity and Lethargy')
-            ->assertSee('December 13, 2016 8:00pm')
-            ->assertSee('32.50')
-            ->assertSee('The Mosh Pit')
-            ->assertSee('123 Example Lane')
-            ->assertSee('Laraville, ON 17916')
-            ->assertSee('For tickets, call (555) 555-5555.');
+        $response->assertSee('The Red Chord');
+        $response->assertSee('with Animosity and Lethargy');
+        $response->assertSee('December 13, 2016');
+        $response->assertSee('8:00pm');
+        $response->assertSee('32.50');
+        $response->assertSee('The Mosh Pit');
+        $response->assertSee('123 Example Lane');
+        $response->assertSee('Laraville, ON 17916');
+        $response->assertSee('For tickets, call (555) 555-5555.');
     }
 
 
