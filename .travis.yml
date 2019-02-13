@@ -22,9 +22,13 @@ before_script:
   - sh -e /etc/init.d/xvfb start
   - php artisan key:generate
   - php artisan migrate
+  - nvm install 7.7.1
+  - npm install npm@latest -g
+  - npm install
 
 script:
   - ./vendor/bin/phpunit
+  - npm run production
 
 branches:
   only:
