@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateConcertTable extends Migration
+class CreateConcertsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -18,7 +18,7 @@ class CreateConcertTable extends Migration
             $table->string('title');
             $table->string('subtitle');
             $table->dateTime('date');
-            $table->float('ticket_price');
+            $table->integer('ticket_price');
             $table->string('venue');
             $table->string('venue_address');
             $table->string('city');
