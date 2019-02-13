@@ -22,13 +22,22 @@ before_script:
   - sh -e /etc/init.d/xvfb start
   - php artisan key:generate
   - php artisan migrate
-  - nvm install 7.7.1
-  - npm install npm@latest -g
   - npm install
+  -
+before_install:
+  - mysql -e 'CREATE DATABASE app;'
 
 script:
   - ./vendor/bin/phpunit
   - npm run production
+
+services:
+  - mysql
+
+cache:
+  directories:
+    - node_modules
+    - vendor
 
 branches:
   only:
