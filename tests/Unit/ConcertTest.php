@@ -10,9 +10,7 @@ use Tests\TestCase;
 
 class ConcertTest extends TestCase
 {
-//    use DatabaseMigrations;
-
-    use RefreshDatabase;
+    use DatabaseMigrations;
 
     public function test_can_get_formatted_date()
     {

@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class ViewConcertListingTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseMigrations;
 
     public function test_a_user_can_view_a_concert_listing()
     {
