@@ -12,7 +12,6 @@ install:
   - travis_retry composer install --no-interaction
 
 before_script:
-  - mkdir bootstrap/cache
   - cp .env.travis .env
   - mysql -e 'create database app;'
   - php artisan key:generate
