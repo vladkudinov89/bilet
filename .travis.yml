@@ -23,9 +23,6 @@ before_script:
   - php artisan key:generate
   - php artisan migrate
   - npm install
-  -
-before_install:
-  - mysql -e 'CREATE DATABASE app;'
 
 script:
   - ./vendor/bin/phpunit
