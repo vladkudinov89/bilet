@@ -17,4 +17,15 @@ class ViewConcertListingTest extends TestCase
     {
         $this->assertTrue(true);
     }
+
+    public function test_for_travis()
+    {
+        $response = $this->get('/');
+
+        $response->assertStatus(200);
+
+        $response->assertSee('Laravel');
+    }
+
+
 }
