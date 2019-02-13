@@ -58,10 +58,10 @@ return [
 
         'testing' => [
             'driver'    => 'mysql',
-            'host'      => env('DB_TEST_HOST', 'localhost'),
-            'database'  => env('DB_TEST_DATABASE', 'app'),
-            'username'  => env('DB_TEST_USERNAME', 'app'),
-            'password'  => env('DB_TEST_PASSWORD', 'secret'),
+            'host'      => env('localhost'),
+            'database'  => env('app_test'),
+            'username'  => env('app'),
+            'password'  => env('secret'),
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
