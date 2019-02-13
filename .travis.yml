@@ -5,10 +5,14 @@ php:
   - 7.1
 
 env:
-  - DB_DATABASE=app DB_USERNAME=app DB_PASSWORD=secret
+  - DB_DATABASE=app
+  - DB_USERNAME=app
+  - DB_PASSWORD=secret
 
 install:
   - echo $DB_DATABASE
+  - echo $DB_USERNAME
+  - echo $DB_PASSWORD
   - composer self-update
   - travis_retry composer install --no-interaction
   - mysql -e "create user '$DB_USERNAME'@'localhost' identified by '$DB_PASSWORD';"
