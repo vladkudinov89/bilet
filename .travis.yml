@@ -1,3 +1,4 @@
+sudo: required
 language: php
 
 php:
@@ -10,10 +11,12 @@ install:
   - echo $DB_DATABASE
   - composer self-update
   - travis_retry composer install --no-interaction
+  - mysql -e "create user '$DB_USERNAME'@'localhost' identified by '$DB_PASSWORD';"
+  - mysql -e "grant all privileges on *.* to '$DB_USERNAME'@'localhost' with grant option;"
+  - mysql -u$DB_USERNAME -p$DB_PASSWORD -e "create database app;"
 
 before_script:
   - cp .env.travis .env
-  - mysql -e 'create database app;'
   - php artisan key:generate
   - php artisan migrate
   - npm install
