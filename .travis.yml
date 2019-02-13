@@ -10,14 +10,11 @@ install:
   - echo $DB_DATABASE
   - composer self-update
   - travis_retry composer install --no-interaction
-  - mysql -e "create user '$DB_USERNAME'@'localhost' identified by '$DB_PASSWORD';"
-  - mysql -e "grant all privileges on *.* to '$DB_USERNAME'@'localhost' with grant option;"
-  - mysql -u$DB_USERNAME -p$DB_PASSWORD -e "create database $DB_DATABASE;"
 
 before_script:
+  - mkdir bootstrap/cache
   - cp .env.travis .env
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
+  - mysql -e 'create database app;'
   - php artisan key:generate
   - php artisan migrate
   - npm install
