@@ -37,7 +37,7 @@ services:
         image: mysql:5.7
         container_name: app-mysql
         volumes:
-            - ./docker/mysql:/var/lib/mysql
+            - ./storage/docker/mysql:/var/lib/mysql
         environment:
             - "MYSQL_ROOT_PASSWORD=secret"
             - "MYSQL_USER=app"
