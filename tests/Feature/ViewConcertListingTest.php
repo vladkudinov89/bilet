@@ -25,6 +25,8 @@ class ViewConcertListingTest extends TestCase
         $response->assertStatus(200);
 
         $response->assertSee('Laravel');
+
+        $response->assertDontSee('Home2');
     }
 
 
