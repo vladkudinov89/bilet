@@ -5,11 +5,14 @@ namespace Tests\Unit;
 use App\Concert;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ConcertTest extends TestCase
 {
-    use DatabaseMigrations;
+//    use DatabaseMigrations;
+
+    use RefreshDatabase;
 
     public function test_can_get_formatted_date()
     {
