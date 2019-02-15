@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Billing\PaymentGateway;
 use App\Concert;
+use App\Exceptions\PaymentFailedException;
 use Illuminate\Http\Request;
 
 class ConcertOrderController extends Controller

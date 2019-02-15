@@ -130,6 +130,25 @@ class PurchaseTicketsTest extends TestCase
         $this->orderAsserts('payment_token' , $response , 422);
     }
 
+    public function test_an_order_is_not_created_if_payment_fails()
+    {
+        $concert = factory(Concert::class)->create([
+            'ticket_price' => 3250
+        ]);
+
+        $response = $this->orderTickets($concert , [
+            'email' => 'test@test.ru',
+            'ticket_quantity' => 3,
+            'payment_token' => 'invalid-token'
+        ]);
+
+        $response->assertStatus(422);
+
+        $order = $concert->orders()->where('email' , 'test@test.tu')->first();
+
+        $this->assertNull($order);
+    }
+
 
     private function orderTickets($concert , array $params)
     {
@@ -142,6 +161,4 @@ class PurchaseTicketsTest extends TestCase
 
         $this->assertArrayHasKey($key , $response->json()['errors']);
     }
-
-
 }
