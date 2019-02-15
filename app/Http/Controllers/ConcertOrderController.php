@@ -17,6 +17,10 @@ class ConcertOrderController extends Controller
 
     public function store(int $concertId)
     {
+        $this->validate(\request() , [
+           'email' => 'required'
+        ]);
+
         $concert = Concert::find($concertId);
 
         $ticketQuantity = request('ticket_quantity');
