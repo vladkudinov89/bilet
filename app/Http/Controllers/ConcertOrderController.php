@@ -17,8 +17,10 @@ class ConcertOrderController extends Controller
 
     public function store(int $concertId)
     {
-        $this->validate(\request() , [
-           'email' => 'required'
+        $this->validate(\request(), [
+            'email' => ['required', 'email'],
+            'ticket_quantity' => ['required', 'integer', 'min:1'],
+            'payment_token' => ['required']
         ]);
 
         $concert = Concert::find($concertId);
@@ -27,10 +29,10 @@ class ConcertOrderController extends Controller
 
         $amount = $ticketQuantity * $concert->ticket_price;
 
-        $this->paymentGateway->charge($amount , request('payment_token'));
+        $this->paymentGateway->charge($amount, request('payment_token'));
 
-        $order = $concert->orderTickets(request('email') , $ticketQuantity);
+        $order = $concert->orderTickets(request('email'), $ticketQuantity);
 
-        return response()->json([] , 201);
+        return response()->json([], 201);
     }
 }
