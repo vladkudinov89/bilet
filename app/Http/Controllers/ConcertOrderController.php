@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Billing\PaymentGateway;
 use App\Concert;
-use App\Exceptions\PaymentFailedException;
 use Illuminate\Http\Request;
 
 class ConcertOrderController extends Controller
@@ -18,13 +17,13 @@ class ConcertOrderController extends Controller
 
     public function store(int $concertId)
     {
+        $concert = Concert::published()->findOrFail($concertId);
+
         $this->validate(\request(), [
             'email' => ['required', 'email'],
             'ticket_quantity' => ['required', 'integer', 'min:1'],
             'payment_token' => ['required']
         ]);
-
-        $concert = Concert::find($concertId);
 
         $ticketQuantity = request('ticket_quantity');
 
