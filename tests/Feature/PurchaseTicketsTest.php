@@ -5,11 +5,14 @@ namespace Tests\Feature;
 use App\Billing\FakePaymentGateway;
 use App\Billing\PaymentGateway;
 use App\Concert;
+use App\Exceptions\NotEnoughTicketsException;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
 class PurchaseTicketsTest extends TestCase
 {
+    use DatabaseMigrations;
+
     protected $paymentGateway;
 
     protected function setUp()
@@ -20,14 +23,14 @@ class PurchaseTicketsTest extends TestCase
         $this->app->instance(PaymentGateway::class , $this->paymentGateway);
     }
 
-    use DatabaseMigrations;
-
 
     public function test_customer_can_purchase_concert_tickets()
     {
         $concert = factory(Concert::class)->states('published')->create([
             'ticket_price' => 3250
         ]);
+
+        $concert->addTickets(5);
 
         $response = $this->json('post' , "/concert/{$concert->id}/orders" , [
             'email' => 'test@test.tu',
@@ -64,6 +67,28 @@ class PurchaseTicketsTest extends TestCase
         $this->assertEquals(0 , $this->paymentGateway->totalCharges());
     }
 
+    public function test_cannot_purchase_more_tickets_than_remain()
+    {
+        $concert = factory(Concert::class)->states('published')->create();
+
+        $concert->addTickets(2);
+
+        $response = $this->orderTickets($concert , [
+            'email' => 'test@test.ru',
+            'ticket_quantity' => 3,
+            'payment_token' => $this->paymentGateway->getValidTestToken()
+        ]);
+
+        $response->assertStatus(422);
+
+        $order = $concert->orders()->where('email' , 'test@test.tu')->first();
+
+        $this->assertNull($order);
+
+        $this->assertEquals( 0 , $this->paymentGateway->totalCharges());
+
+        $this->assertEquals( 2 , $concert->ticketsRemaining());
+    }
 
     public function test_email_is_required_to_pusrchase_tickets()
     {
