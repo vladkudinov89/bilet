@@ -24,8 +24,9 @@ class PurchaseTicketsTest extends TestCase
     }
 
 
-    public function test_customer_can_purchase_concert_tickets()
+    public function test_customer_can_purchase_to_published_concert_tickets()
     {
+        $this->withoutExceptionHandling();
         $concert = factory(Concert::class)->states('published')->create([
             'ticket_price' => 3250
         ]);

@@ -20,6 +20,11 @@ class Ticket extends Model
         return $this->belongsTo(Order::class);
     }
 
+    public function concert()
+    {
+        return $this->belongsTo(Concert::class);
+    }
+
     public function release()
     {
        $this->update(['order_id' => null]);
