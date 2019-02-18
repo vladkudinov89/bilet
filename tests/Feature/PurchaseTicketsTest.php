@@ -24,8 +24,9 @@ class PurchaseTicketsTest extends TestCase
     }
 
 
-    public function test_customer_can_purchase_concert_tickets()
+    public function test_customer_can_purchase_to_published_concert_tickets()
     {
+        $this->withoutExceptionHandling();
         $concert = factory(Concert::class)->states('published')->create([
             'ticket_price' => 3250
         ]);
@@ -33,17 +34,23 @@ class PurchaseTicketsTest extends TestCase
         $concert->addTickets(5);
 
         $response = $this->json('post' , "/concert/{$concert->id}/orders" , [
-            'email' => 'test@test.tu',
+            'email' => 'test@test.ru',
             'ticket_quantity' => 3,
             'payment_token' => $this->paymentGateway->getValidTestToken()
         ]);
 
         $response->assertStatus(201);
 
+        $response->assertJson([
+           'email' => 'test@test.ru',
+            'ticket_quantity' => 3,
+            'amount' => 9750
+        ]);
+
         $this->assertEquals(9750 , $this->paymentGateway->totalCharges());
 
 
-        $order = $concert->orders()->where('email' , 'test@test.tu')->first();
+        $order = $concert->orders()->where('email' , 'test@test.ru')->first();
 
         $this->assertNotNull($order);
 
