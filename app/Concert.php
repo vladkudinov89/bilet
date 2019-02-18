@@ -61,6 +61,8 @@ class Concert extends Model
         foreach (range(1 , $quantity) as $item) {
             $this->tickets()->create([]);
         }
+
+        return $this;
     }
 
     public function ticketsRemaining()
