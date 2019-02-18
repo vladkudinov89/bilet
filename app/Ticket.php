@@ -25,6 +25,11 @@ class Ticket extends Model
         return $this->belongsTo(Concert::class);
     }
 
+    public function getPriceAttribute()
+    {
+        return $this->concert->ticket_price;
+    }
+
     public function release()
     {
        $this->update(['order_id' => null]);
