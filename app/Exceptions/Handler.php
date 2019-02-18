@@ -50,6 +50,10 @@ class Handler extends ExceptionHandler
             return response()->json([], 422);
         }
 
+        if ($exception instanceof NotEnoughTicketsException){
+            return response()->json([], 422);
+        }
+
         return parent::render($request, $exception);
     }
 }

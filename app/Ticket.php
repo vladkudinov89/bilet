@@ -6,8 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ticket extends Model
 {
-
     protected $table = 'tickets';
+
+    public function scopeAvailable($query)
+    {
+        return $query->whereNull('order_id');
+    }
 
     public function order()
     {

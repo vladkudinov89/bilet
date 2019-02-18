@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Billing\PaymentGateway;
 use App\Concert;
+use App\Exceptions\NotEnoughTicketsException;
 use Illuminate\Http\Request;
 
 class ConcertOrderController extends Controller
@@ -29,9 +30,9 @@ class ConcertOrderController extends Controller
 
         $amount = $ticketQuantity * $concert->ticket_price;
 
-        $this->paymentGateway->charge($amount, request('payment_token'));
-
         $order = $concert->orderTickets(request('email'), $ticketQuantity);
+
+        $this->paymentGateway->charge($amount, request('payment_token'));
 
         return response()->json([], 201);
     }
