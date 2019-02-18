@@ -34,6 +34,6 @@ class ConcertOrderController extends Controller
 
         $this->paymentGateway->charge($amount, request('payment_token'));
 
-        return response()->json([], 201);
+        return response()->json($order, 201);
     }
 }

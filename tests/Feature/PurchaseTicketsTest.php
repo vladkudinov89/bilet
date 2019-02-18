@@ -33,17 +33,23 @@ class PurchaseTicketsTest extends TestCase
         $concert->addTickets(5);
 
         $response = $this->json('post' , "/concert/{$concert->id}/orders" , [
-            'email' => 'test@test.tu',
+            'email' => 'test@test.ru',
             'ticket_quantity' => 3,
             'payment_token' => $this->paymentGateway->getValidTestToken()
         ]);
 
         $response->assertStatus(201);
 
+        $response->assertJson([
+           'email' => 'test@test.ru',
+            'ticket_quantity' => 3,
+            'amount' => 9750
+        ]);
+
         $this->assertEquals(9750 , $this->paymentGateway->totalCharges());
 
 
-        $order = $concert->orders()->where('email' , 'test@test.tu')->first();
+        $order = $concert->orders()->where('email' , 'test@test.ru')->first();
 
         $this->assertNotNull($order);
 
