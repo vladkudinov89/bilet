@@ -47,13 +47,13 @@ class OrderTest extends TestCase
         ] , $result);
     }
 
-    public function test_creating_an_order_from_tickets_and_email()
+    public function test_creating_an_order_from_tickets_and_email_and_amount()
     {
-        $concert = factory(Concert::class)->create(['ticket_price' => 1200])->addTickets(5);
+        $concert = factory(Concert::class)->create()->addTickets(5);
 
         $this->assertEquals(5 , $concert->ticketsRemaining());
 
-        $order = Order::forTickets($concert->findTickets(3) , 'test@test.ru');
+        $order = Order::forTickets($concert->findTickets(3) , 'test@test.ru' , 3600);
 
         $this->assertEquals('test@test.ru' , $order->email);
 
