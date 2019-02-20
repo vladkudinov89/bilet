@@ -32,23 +32,6 @@ class OrderTest extends TestCase
         ] , $result);
     }
 
-    public function test_creating_an_order_from_reservation()
-    {
-        $concert = factory(Concert::class)->create(['ticket_price' => 1200]);
-        $tickets = factory(Ticket::class , 3)->create(['concert_id' => $concert->id]);
-
-        $reservation = new Reservation($tickets , 'test@test.ru');
-
-        $order = Order::fromReservation($reservation);
-
-        $this->assertEquals('test@test.ru' , $order->email);
-
-        $this->assertEquals(3 , $order->ticketQuantity());
-
-        $this->assertEquals(3600 , $order->amount);
-    }
-
-
     public function test_creating_an_order_from_tickets_and_email_and_amount()
     {
         $concert = factory(Concert::class)->create()->addTickets(5);

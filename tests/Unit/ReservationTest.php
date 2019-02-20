@@ -61,5 +61,21 @@ class ReservationTest extends TestCase
         $reservation->cancel();
     }
 
+    public function test_completing_a_reservation()
+    {
+        $concert = factory(Concert::class)->create(['ticket_price' => 1200]);
+        $tickets = factory(Ticket::class , 3)->create(['concert_id' => $concert->id]);
+
+        $reservation = new Reservation($tickets , 'test@test.ru');
+
+        $order = $reservation->complete();
+
+        $this->assertEquals('test@test.ru' , $order->email);
+
+        $this->assertEquals(3 , $order->ticketQuantity());
+
+        $this->assertEquals(3600 , $order->amount);
+    }
+
 
 }
