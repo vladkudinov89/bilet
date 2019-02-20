@@ -20,15 +20,6 @@ class Order extends Model
         return $this->hasMany(Ticket::class);
     }
 
-    public function cancel()
-    {
-        foreach ($this->tickets as $ticket) {
-            $ticket->release();
-        }
-
-        $this->delete();
-    }
-
     public function ticketQuantity()
     {
         return $this->tickets()->count();
@@ -43,11 +34,11 @@ class Order extends Model
         ];
     }
 
-    public static function forTickets($tickets , $email)
+    public static function forTickets($tickets, $email, $amount = null)
     {
         $order = self::create([
             'email' => $email,
-            'amount' => $tickets->sum('price')
+            'amount' => $amount
         ]);
 
         foreach ($tickets as $ticket) {

@@ -124,9 +124,42 @@ class ConcertTest extends TestCase
         $testOrder = $concert->orders()->where('email' , 'test@test.ru')->first();
 
         $this->assertNull($testOrder);
-
-
-
     }
+
+    public function test_can_reserve_available_tickets()
+    {
+        $concert = factory(Concert::class)->create()->addTickets(3);
+
+        $this->assertEquals(3 , $concert->ticketsRemaining());
+
+        $reservation = $concert->reserveTickets(2 , 'test@test.ru');
+
+        $this->assertCount(2 , $reservation->tickets());
+
+        $this->assertEquals('test@test.ru' , $reservation->email());
+
+        $this->assertEquals(1 , $concert->ticketsRemaining());
+    }
+
+    public function test_can_reserve_tickets_that_have_already_been_purchased()
+    {
+        $concert = factory(Concert::class)->create()->addTickets(3);
+
+        $concert->orderTickets('jane@test.ru' ,1);
+
+        $concert->reserveTickets(1 , 'jane@test.ru');
+
+        $this->assertEquals(1 , $concert->ticketsRemaining());
+    }
+
+    public function test_can_reserve_tickets_that_have_already_been_reserved()
+    {
+        $concert = factory(Concert::class)->create()->addTickets(3);
+
+        $concert->reserveTickets(2 , 'jane@test.ru');
+
+        $this->assertEquals(1 , $concert->ticketsRemaining());
+    }
+
 
 }
