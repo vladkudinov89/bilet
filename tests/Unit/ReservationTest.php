@@ -18,7 +18,7 @@ class ReservationTest extends TestCase
 
         $tickets = $concert->findTickets(3);
 
-        $reservation = new Reservation($tickets);
+        $reservation = new Reservation($tickets , 'test@test.ru');
 
         $this->assertEquals(3600 , $reservation->totalCost());
     }
@@ -29,10 +29,17 @@ class ReservationTest extends TestCase
 
         $tickets = $concert->findTickets(3);
 
-        $reservation = new Reservation($tickets);
+        $reservation = new Reservation($tickets , 'test@test.ru');
 
         $this->assertEquals($tickets , $reservation->tickets());
 
+    }
+
+    public function test_retriaving_reservation_email()
+    {
+        $reservation = new Reservation(collect() , 'test@test.ru');
+
+        $this->assertEquals('test@test.ru' ,  $reservation->email());
     }
 
 
@@ -49,7 +56,7 @@ class ReservationTest extends TestCase
 
         $tickets = collect([$ticket1 , $ticket2, $ticket3]);
 
-        $reservation = new Reservation($tickets);
+        $reservation = new Reservation($tickets , 'test@test.ru');
 
         $reservation->cancel();
     }
