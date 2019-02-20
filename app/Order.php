@@ -34,7 +34,7 @@ class Order extends Model
         ];
     }
 
-    public static function forTickets($tickets , $email , $amount = null)
+    public static function forTickets($tickets, $email, $amount = null)
     {
         $order = self::create([
             'email' => $email,
@@ -45,6 +45,18 @@ class Order extends Model
 
             $order->tickets()->save($ticket);
         }
+
+        return $order;
+    }
+
+    public static function fromReservation($reservation)
+    {
+        $order = self::create([
+            'email' => $reservation->email(),
+            'amount' => $reservation->totalCost()
+        ]);
+
+        $order->tickets()->saveMany($reservation->tickets());
 
         return $order;
     }
