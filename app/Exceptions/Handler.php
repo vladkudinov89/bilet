@@ -46,14 +46,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof PaymentFailedException){
-            return response()->json([], 422);
-        }
-
-        if ($exception instanceof NotEnoughTicketsException){
-            return response()->json([], 422);
-        }
-
         return parent::render($request, $exception);
     }
 }
