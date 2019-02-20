@@ -23,6 +23,19 @@ class ReservationTest extends TestCase
         $this->assertEquals(3600 , $reservation->totalCost());
     }
 
+    public function test_retrieving_the_reservation_tickets()
+    {
+        $concert = factory(Concert::class)->create(['ticket_price' => 1200])->addTickets(3);
+
+        $tickets = $concert->findTickets(3);
+
+        $reservation = new Reservation($tickets);
+
+        $this->assertEquals($tickets , $reservation->tickets());
+
+    }
+
+
     public function test_reserved_tickets_are_released_a_reservation_is_cancelled()
     {
         $ticket1 = \Mockery::mock(Ticket::class);
